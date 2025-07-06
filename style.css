@@ -79,7 +79,7 @@ body {
 .side {
     position: absolute;
     inset: 0;
-    padding: 60px 45px;
+    padding: 3rem 2rem;
     border-radius: 28px;
     background: var(--glass);
     backdrop-filter: blur(var(--blur));
@@ -93,7 +93,8 @@ body {
 }
 
 .side.back {
-    transform: rotateY(180deg)
+    transform: rotateY(180deg);
+    height: fit-content;
 }
 
 /* ------------- HERO HEADING ------------- */
@@ -216,6 +217,7 @@ button {
     background: #ff73a1;
     color: #fff;
     border: none;
+    margin: 1rem 0 0 0;
     padding: 14px 38px;
     border-radius: 34px;
     font-size: 1.25rem;
