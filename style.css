@@ -1,268 +1,114 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ============== RESET & TOKENS ============== */
+:root{
+  --grad1:#ff9a9e; --grad2:#fad0c4;
+  --grad3:#a18cd1; --grad4:#fbc2eb;
+  --whiteGlass:rgba(255,255,255,0.8);
+  --glass-bg:rgba(255,255,255,0.25);
+  --cardW:420px; --cardH:620px;
+  --blur:15px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  display:grid;                      /* ⬅ keeps everything centred */
+  place-items:center;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(-45deg,var(--grad1),var(--grad2),var(--grad3),var(--grad4));
+  background-size:600% 600%;
+  animation:bgShift 20s ease infinite;
+  overflow:hidden;
+}
+@keyframes bgShift{
+  0%,100%{background-position:0% 50%}
+  50%   {background-position:100% 50%}
 }
 
-body {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd);
-    min-height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+/* ============== SCENE & CARD ============== */
+.scene{
+  display:flex; flex-direction:column; align-items:center; gap:30px;
+  perspective:1200px; z-index:2; text-align:center;
+}
+.card{
+  width:var(--cardW); height:var(--cardH);
+  position:relative; transform-style:preserve-3d;
+  transition:transform 1.1s cubic-bezier(.2,.8,.2,1);
+  cursor:pointer;
+}
+.card.is-flipped{transform:rotateY(180deg)}
+.side{
+  position:absolute; inset:0; padding:60px 45px;
+  border-radius:28px;
+  background:var(--glass-bg); backdrop-filter:blur(var(--blur));
+  box-shadow:0 25px 50px rgba(0,0,0,.15);
+  display:flex; flex-direction:column; justify-content:space-between; align-items:center;
+  overflow:hidden;
+  backface-visibility:hidden;          /* smoother flip */
+}
+.side.back{transform:rotateY(180deg)}
+
+/* ============== HERO HEADING ============== */
+h1{font-weight:800;font-size:2.8rem;line-height:1.1;text-shadow:0 0 12px #fff8}
+h1 span{font-size:3.4rem}
+.glow{color:#fff;animation:neon 3s ease-in-out infinite alternate}
+@keyframes neon{
+  from{text-shadow:0 0 12px #fff,0 0 25px #fff,0 0 35px #ff8bcb}
+  to  {text-shadow:0 0 6px #fff,0 0 12px #ff8bcb,0 0 18px #ff8bcb}
 }
 
-.container {
-    text-align: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    max-width: 600px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 1s ease-out;
+/* ============== CAKE ============== */
+.cake{position:relative;margin:35px 0 15px}
+.tier{
+  width:220px;height:55px;border-radius:10px;margin:5px auto 0;
+  background:linear-gradient(120deg,#fff 10%,#ffdcdc 50%,#fff 90%);
+  box-shadow:0 3px 8px rgba(0,0,0,.1);
+}
+.t3{width:150px}
+.t2{width:185px}
+.candle{width:17px;height:55px;background:#ff73a1;border-radius:4px;
+  position:absolute;left:50%;transform:translateX(-50%);top:-55px}
+.flame{width:20px;height:28px;background:#ffd93d;border-radius:50% 50% 45% 45%;
+  position:absolute;left:50%;top:-26px;transform:translateX(-50%);
+  box-shadow:0 0 12px #ffb300;animation:flame 1s ease-in-out infinite alternate}
+@keyframes flame{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.12)}}
+
+/* ============== MESSAGE SIDE ============== */
+h2{font-weight:600;color:#ff73a1;font-size:2rem;margin-bottom:18px}
+.msg{
+  background:var(--whiteGlass);padding:28px 24px;
+  border-radius:18px;color:#444;font-size:1.15rem;line-height:1.5
+}
+.msg p{margin:12px 0}
+.sign{font-style:italic;color:#a18cd1}
+.tapHint{color:#fff9;font-size:1.05rem;margin-top:auto}
+button{
+  background:#ff73a1;color:#fff;border:none;
+  padding:14px 38px;border-radius:34px;
+  font-size:1.25rem;font-weight:600;letter-spacing:.4px;
+  box-shadow:0 12px 28px rgba(255,115,161,.35);
+  cursor:pointer;transition:transform .25s;
+}
+button:hover{transform:translateY(-4px)}
+footer{color:#fff;font-size:1.05rem;text-shadow:0 1px 3px #0002}
+
+/* ============== SPARKLE OVERLAY ============== */
+.side::before,.side::after{
+  content:"";position:absolute;border-radius:50%;background:#fff4;
+  pointer-events:none;mix-blend-mode:overlay;animation:float 8s linear infinite}
+.side::before{width:150px;height:150px;top:-40px;left:-40px}
+.side::after{width:200px;height:200px;bottom:-60px;right:-60px;animation-duration:11s}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(40px)}}
+
+/* ============== BACKGROUND CANVAS ============== */
+#bgCanvas{
+  position:fixed;inset:0;      /* full-screen */
+  z-index:-1;                  /* sit behind everything */
+  pointer-events:none;         /* never hijack clicks */
 }
 
-.container::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
-    z-index: -1;
-    border-radius: 30px;
-    animation: rotate 6s linear infinite;
-}
-
-.birthday-card {
-    padding: 2rem;
-    background: white;
-    border-radius: 15px;
-}
-
-h1 {
-    font-size: 4rem;
-    color: #ff6b6b;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    animation: pulse 2s infinite;
-}
-
-.name {
-    color: #4d96ff;
-    font-weight: bold;
-}
-
-.birthday-person {
-    font-size: 2.5rem;
-    color: #ff6b6b;
-    margin: 1rem 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin: 1.5rem 0;
-    color: #333;
-}
-
-.balloons {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-}
-
-.balloon {
-    width: 60px;
-    height: 70px;
-    border-radius: 50%;
-    margin: 0 10px;
-    position: relative;
-    animation: float 6s ease-in-out infinite;
-}
-
-.balloon::after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.balloon:nth-child(1) {
-    background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff3d3d);
-    animation-delay: 0s;
-}
-
-.balloon:nth-child(2) {
-    background: radial-gradient(circle at 30% 30%, #4d96ff, #2d7dff);
-    animation-delay: 0.5s;
-}
-
-.balloon:nth-child(3) {
-    background: radial-gradient(circle at 30% 30%, #6bcebb, #3bb99b);
-    animation-delay: 1s;
-}
-
-.balloon:nth-child(4) {
-    background: radial-gradient(circle at 30% 30%, #ffd93d, #ffc107);
-    animation-delay: 1.5s;
-}
-
-.balloon:nth-child(5) {
-    background: radial-gradient(circle at 30% 30%, #9b5de5, #7c3aed);
-    animation-delay: 2s;
-}
-
-.cake {
-    width: 200px;
-    height: 150px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.plate {
-    width: 220px;
-    height: 20px;
-    background: #e0e0e0;
-    border-radius: 10px;
-    margin: 0 auto;
-}
-
-.layer {
-    width: 180px;
-    height: 40px;
-    border-radius: 10px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.layer-1 {
-    background: #ff9a9e;
-    bottom: 20px;
-    width: 200px;
-}
-
-.layer-2 {
-    background: #fad0c4;
-    bottom: 60px;
-    width: 170px;
-}
-
-.layer-3 {
-    background: #a1c4fd;
-    bottom: 100px;
-    width: 140px;
-}
-
-.candle {
-    width: 10px;
-    height: 40px;
-    background: #4d96ff;
-    position: absolute;
-    bottom: 140px;
-    border-radius: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.flame {
-    width: 15px;
-    height: 25px;
-    background: #ffd93d;
-    border-radius: 50% 50% 20% 20%;
-    position: absolute;
-    bottom: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: flicker 0.5s infinite alternate;
-    box-shadow: 0 0 15px #ff9a00;
-}
-
-.button {
-    background: linear-gradient(45deg, #ff6b6b, #ff3d3d);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-}
-
-.button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
-}
-
-.button:active {
-    transform: translateY(1px);
-}
-
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #f00;
-    border-radius: 2px;
-    animation: fall linear forwards;
-}
-
-footer {
-    margin-top: 2rem;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes flicker {
-    0% { transform: translateX(-50%) scale(1); opacity: 1; }
-    100% { transform: translateX(-50%) scale(1.1); opacity: 0.9; }
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes fall {
-    to { transform: translateY(100vh) rotate(360deg); }
-}
-
-@media (max-width: 600px) {
-    h1 { font-size: 3rem; }
-    .birthday-person { font-size: 2rem; }
-    .container { width: 90%; }
+/* ============== RESPONSIVE ============== */
+@media(max-width:550px){
+  :root{--cardW:90vw;--cardH:85vh}
+  h1{font-size:2.2rem} h1 span{font-size:2.8rem}
+  h2{font-size:1.7rem}
+  .msg{font-size:1rem}
 }

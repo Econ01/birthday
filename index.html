@@ -1,43 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎂</title>
+
+  <!-- Google Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+          defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="birthday-card">
-            <div class="balloons">
-                <div class="balloon"></div>
-                <div class="balloon"></div>
-                <div class="balloon"></div>
-                <div class="balloon"></div>
-                <div class="balloon"></div>
-            </div>
-            
-            <h1>HAPPY BIRTHDAY <span class="name">PHILINE!</span></h1>
-            
-            <div class="birthday-person">To Our Special Friend</div>
-            
-            <p>Wishing you a day filled with happiness and a year filled with joy! May all your dreams and wishes come true on your special day and throughout the coming year. Maybe this is not much but I hope it makes your birthday feel like a proper birthday a bit</p>
-            
-            <div class="cake">
-                <div class="flame"></div>
-                <div class="candle"></div>
-                <div class="layer layer-3"></div>
-                <div class="layer layer-2"></div>
-                <div class="layer layer-1"></div>
-                <div class="plate"></div>
-            </div>
-            
-            <button class="button" id="celebrateBtn">Celebrate Again!</button>
-            
-            <footer>Made with ❤️ for your special day!</footer>
-        </div>
-    </div>
+  <!-- star-field / parallax background -->
+  <canvas id="bgCanvas"></canvas>
 
-    <script src="script.js"></script>
+  <main class="scene">
+    <section class="card" id="card">
+      <!-- FRONT -->
+      <div class="side front">
+        <h1 class="glow">HAPPY <br><span>BIRTHDAY</span></h1>
+
+        <div class="cake">
+          <div class="tier t3"></div>
+          <div class="tier t2"></div>
+          <div class="tier t1"></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+
+        <p class="tapHint">Tap / click to open</p>
+      </div>
+
+      <!-- BACK -->
+      <div class="side back">
+        <h2>Dear Sarah 🎉</h2>
+
+        <div class="msg">
+          <p>Wishing you a day filled with laughter, sweet surprises and all the sparkle you deserve.</p>
+          <p>May your year be bursting with adventures, warm hugs, and dreams come true.</p>
+          <p class="sign">With love — your friends &amp; family</p>
+        </div>
+
+        <button id="celebrateBtn">
+          <i class="fa-solid fa-heart"></i> Celebrate again
+        </button>
+      </div>
+    </section>
+
+    <footer>
+      Made&nbsp;with&nbsp;<i class="fa fa-heart"></i> just&nbsp;for&nbsp;you!
+    </footer>
+  </main>
 </body>
 </html>
