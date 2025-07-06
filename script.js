@@ -1,14 +1,14 @@
-/* 3-D FLIP */
+/* --------------- CARD FLIP --------------- */
 const card = document.getElementById("card");
 card.addEventListener("click", () => {
   card.classList.toggle("is-flipped");
   fireConfetti();
 });
 
-/* CELEBRATE BUTTON */
+/* --------------- CELEBRATE BUTTON --------------- */
 document.getElementById("celebrateBtn").addEventListener("click", fireConfetti);
 
-/* CONFETTI */
+/* --------------- CONFETTI --------------- */
 function fireConfetti() {
   confetti({ particleCount: 140, spread: 70, origin: { y: 0.6 }, scalar: 1.15 });
   const end = Date.now() + 2000;
@@ -24,7 +24,7 @@ function fireConfetti() {
   })();
 }
 
-/* STAR-FIELD BACKGROUND */
+/* --------------- STAR-FIELD BACKGROUND --------------- */
 const bgCanvas = document.getElementById("bgCanvas");
 const ctx = bgCanvas.getContext("2d");
 resizeCanvas();
@@ -51,6 +51,6 @@ const dots = Array.from({ length: 70 }, () => ({
 })();
 
 function resizeCanvas() {
-  bgCanvas.width = innerWidth;
+  bgCanvas.width  = innerWidth;
   bgCanvas.height = innerHeight;
 }
